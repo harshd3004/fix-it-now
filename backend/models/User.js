@@ -2,6 +2,34 @@ const { Schema, model, default: mongoose } = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const technicianProfileSchema = new Schema({
+    //technician specific fields
+    skills: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category'
+    }],
+    expirenceYears: {
+        type: Number,
+        default: 0
+    },
+    ratingAverage: {
+        type: Number,
+        default: 0
+    },
+    ratingCount: {
+        type: Number,
+        default: 0
+    },
+    jobCount: {
+        type: Number,
+        default: 0
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    }
+})
+
 const UserSchema = new Schema({
     name : {
         type: String,
@@ -33,30 +61,9 @@ const UserSchema = new Schema({
         required: true
     },
 
-    //technician specific fields
-    skills: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
-    }],
-    expirenceYears: {
-        type: Number,
-        default: 0
-    },
-    ratingAverage: {
-        type: Number,
-        default: 0
-    },
-    ratingCount: {
-        type: Number,
-        default: 0
-    },
-    jobCount: {
-        type: Number,
-        default: 0
-    },
-    isVerified: {
-        type: Boolean,
-        default: false
+    technicianProfile: {
+        type: technicianProfileSchema,
+        default: null
     }
 
 }, { timestamps: true });
