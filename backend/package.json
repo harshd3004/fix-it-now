@@ -1,0 +1,26 @@
+{
+  "name": "fix-it-now-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshd3004/fix-it-now.git"
+  },
+  "author": "Harsh Desai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harshd3004/fix-it-now/issues"
+  },
+  "homepage": "https://github.com/harshd3004/fix-it-now#readme",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
+  }
+}
