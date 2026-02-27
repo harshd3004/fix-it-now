@@ -8,7 +8,7 @@ const technicianProfileSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
     }],
-    expirenceYears: {
+    experienceYears: {
         type: Number,
         default: 0
     },
