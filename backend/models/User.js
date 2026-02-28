@@ -68,16 +68,10 @@ const UserSchema = new Schema({
 
 }, { timestamps: true });
 
-UserSchema.pre('save', async function(next){
-    if (!this.isModified("password")) return next(); // Skip if unchanged
-
-    try {
-        const saltRounds = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, saltRounds);
-        next();
-    } catch (err) {
-        next(err);
-    }
+UserSchema.pre('save', async function(){
+    if (!this.isModified("password")) return; // Skip if unchanged
+    const saltRounds = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, saltRounds);
 });
 
 UserSchema.methods.comparePassword = async function(candidatePassword) {
