@@ -6,6 +6,16 @@ const errorMiddleware = require('./middleware/errorMiddleware');
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+
+//handle cors
+const cors = require('cors');
+corsOptions = {
+  origin: 'http://localhost:5173',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true
+}
+app.use(cors(corsOptions));
+
 connectDB();
 
 // Middleware to parse JSON bodies
