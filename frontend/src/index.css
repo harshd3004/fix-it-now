@@ -13,6 +13,8 @@ body {
   font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @apply bg-gray-50 text-gray-900;
 }
 
 /* Remove default margins */
@@ -29,4 +31,17 @@ img, picture, video, canvas, svg {
 /* Form elements inherit font */
 input, button, textarea, select {
   font: inherit;
+}
+
+/* Focus styles for better accessibility */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* Smooth transitions */
+* {
+  @apply transition-colors duration-200;
 }
