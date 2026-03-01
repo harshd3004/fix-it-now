@@ -90,7 +90,6 @@ function Register() {
               placeholder="+91 12123 4567"
               value={phone} 
               onChange={(e) => setPhone(e.target.value)}
-              required
             />
           </div>
           <div>
@@ -102,7 +101,6 @@ function Register() {
                 placeholder="Your address"
                 value={address} 
                 onChange={(e) => setAddress(e.target.value)}
-                required
               />
           </div>
           <button 
