@@ -19,7 +19,7 @@ function Navbar() {
           </div>
         ) : (
           <div>
-            <NavLink to='#' className='px-3 py-2 hover:bg-gray-700 rounded'>Register as Technician</NavLink>
+            <NavLink to='/register-technician' className='px-3 py-2 hover:bg-gray-700 rounded'>Register as Technician</NavLink>
             <NavLink to='/login' className='px-3 py-2 hover:bg-gray-700 rounded'>Sign In</NavLink>
             <NavLink to='/register' className='px-3 py-2 hover:bg-gray-700 rounded'>Register</NavLink>
           </div>
