@@ -25,10 +25,12 @@ app.use(express.json());
 const authRoutes = require('./routes/auth.routes');
 const categoryRoutes = require('./routes/category.routes');
 const jobRoutes = require('./routes/job.routes');
+const userRoutes = require('./routes/user.routes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/jobs', jobRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
   res.send('server is running');
