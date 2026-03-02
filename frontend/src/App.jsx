@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import TechnicianRegister from './pages/TechnicianRegister'
 import PostJob from './pages/PostJob'
+import ProfilePage from './pages/ProfilePage'
 
 function App() {
   
@@ -15,6 +16,7 @@ function App() {
         <Route path="/register-technician" element={<TechnicianRegister />} />
         <Route path="/login" element={<Login/>}/>
         <Route path="/post-job" element={<PostJob/>}/>
+        <Route path="/profile/:userId" element={<ProfilePage/>}/>
       </Routes>
     </BrowserRouter>
   )

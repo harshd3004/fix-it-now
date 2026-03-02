@@ -47,7 +47,7 @@ function PostJob() {
     },[])
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 w-full max-w-md">
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-900">Post a Job</h1>
@@ -115,7 +115,7 @@ function PostJob() {
                     <button 
                         type="submit"
                         disabled={isLoading}
-                        className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
+                        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
                     >
                         {isLoading ? 'Posting...' : 'Post Job'} 
                     </button>

@@ -13,7 +13,8 @@ function Navbar() {
         <NavLink to='/' className='text-xl font-bold text-blue-600'>Fix It Now</NavLink>
         {user ? (
           <div className='flex items-center gap-6'>
-            <NavLink to='#' className='text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200'>Profile</NavLink>
+            <NavLink to='/post-job' className='text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200'>Post Job</NavLink>
+            <NavLink to={`/profile/${user.id}`} className='text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200'>Profile</NavLink>
             <button onClick={handleLogout} className='text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200'>Logout</button>
           </div>
         ) : (
