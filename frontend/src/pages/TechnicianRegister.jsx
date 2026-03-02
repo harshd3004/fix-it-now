@@ -43,7 +43,6 @@ function TechnicianRegister() {
         if(selectedSkill && !skills.includes(selectedSkill)){
             setSkills(prev => [...prev, selectedSkill]);
         }
-        e.target.value = '';
     }
 
     useEffect(() => {
