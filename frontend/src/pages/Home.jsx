@@ -1,9 +1,17 @@
 import { useAuth } from '../contexts/AuthContext';
 import Navbar from '../components/Navbar'
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
     const {user} = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      if(user.role === 'technician') navigate('/technician-dashboard');
+    }, [user])
+    
   return (
     <div className='bg-gray-50 min-h-screen'>
         <Navbar/>

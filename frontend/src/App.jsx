@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import TechnicianRegister from './pages/TechnicianRegister'
 import PostJob from './pages/PostJob'
 import ProfilePage from './pages/ProfilePage'
+import TechnicianDashboard from './pages/TechnicianDashboard'
 
 function App() {
   
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/post-job" element={<PostJob/>}/>
         <Route path="/profile/:userId" element={<ProfilePage/>}/>
+        <Route path="/technician-dashboard" element={<TechnicianDashboard/>}/>
       </Routes>
     </BrowserRouter>
   )
