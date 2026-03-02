@@ -1,5 +1,6 @@
 import { useAuth } from '../../contexts/AuthContext';
 import Navbar from '../components/Navbar'
+import { Link } from 'react-router-dom';
 
 function Home() {
     const {user} = useAuth();
@@ -14,7 +15,7 @@ function Home() {
 
               </div>
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                <button className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors duration-200 shadow-sm'>Post Your Problem</button>
+                <Link to='/post-job'  className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors duration-200 shadow-sm'>Post Your Problem</Link>
                 <button className='bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-4 px-6 rounded-lg transition-colors duration-200'>My Service History</button>
               </div>
             </div>
