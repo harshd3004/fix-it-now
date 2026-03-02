@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getCategoriesList } from '../api/categoryApi';
 import { postJob } from '../api/jobsApi';
 import { useNavigate } from 'react-router-dom';
+import SkillDropdown from '../components/SkillDropdown';
 
 function PostJob() {
     const [title, setTitle] = useState('');
@@ -98,20 +99,7 @@ function PostJob() {
                     </div>
                     <div>
                         <label htmlFor="category" className="block text-sm font-semibold text-gray-900 mb-2">Category</label>
-                        <select 
-                            id="category"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                            required
-                        >
-                            <option key="" value="">Select a category</option>
-                            {categories.map((cat) => (
-                                <option key={cat._id} value={cat._id}>{cat.name}</option>
-                            ))}
-
-                            <option value="other">Other</option>
-                        </select>
+                        <SkillDropdown id="category" skillOptions={categories} onSkillSelect={(value) => setCategory(value)} />
                     </div>
                     <div>
                         <label htmlFor="preferredDate" className="block text-sm font-semibold text-gray-900 mb-2">Preferred Date</label>

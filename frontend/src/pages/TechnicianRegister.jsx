@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { registerUser } from '../api/authApi';
 import { useNavigate, Link } from "react-router-dom";
 import { getCategoriesList } from '../api/categoryApi';
+import SkillDropdown from '../components/SkillDropdown';
+import SkillsList from '../components/SkillsList';
 
 function TechnicianRegister() {
     const [name, setName] = useState('');
@@ -35,6 +37,13 @@ function TechnicianRegister() {
 
     const handleSkillRemove = (skillToRemove) => {
         setSkills(skills.filter(s => s !== skillToRemove));
+    }
+
+    const handleSkillSelect = (selectedSkill) => {
+        if(selectedSkill && !skills.includes(selectedSkill)){
+            setSkills(prev => [...prev, selectedSkill]);
+        }
+        e.target.value = '';
     }
 
     useEffect(() => {
@@ -122,43 +131,9 @@ function TechnicianRegister() {
                 </div>
                 <div>
                     <label htmlFor="skills" className="block text-sm font-semibold text-gray-900 mb-2">Select Your Skills</label>
-                    <select 
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-                        name="skills" 
-                        id="skills" 
-                        onChange={(e) => {
-                            if(e.target.value && !skills.includes(e.target.value)){
-                                setSkills(prev => [...prev, e.target.value]);
-                            }
-                            e.target.value = '';
-                        }}
-                    >
-                        <option value="">Choose a skill...</option>
-                        {skillOptions.filter(skill => !skills.includes(skill._id)).map((skill) => (
-                            <option key={skill._id} value={skill._id}>{skill.name}</option>
-                        ))}
-                        {!skills.includes('other') && <option value="other">Other</option>}
-                    </select>
+                    <SkillDropdown skillOptions={skillOptions} onSkillSelect={ handleSkillSelect} />
                     
-                    {skills.length > 0 && (
-                        <div className="mt-3 flex flex-wrap gap-2">
-                            {skills.map(id => {
-                                const skillName = id === 'other' ? 'Other' : skillOptions.find(option => option._id === id)?.name;
-                                return skillName ? (
-                                    <div key={id} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center gap-2 text-sm">
-                                        {skillName}
-                                        <button
-                                            type="button"
-                                            onClick={() => handleSkillRemove(id)}
-                                            className="font-bold hover:text-blue-900"
-                                        >
-                                            ✕
-                                        </button>
-                                    </div>
-                                ) : null;
-                            })}
-                        </div>
-                    )}
+                    <SkillsList skills={skillOptions.filter(skill => skills.includes(skill._id))} onRemoveSkill={handleSkillRemove} />
                 </div>
 
                 <button 
