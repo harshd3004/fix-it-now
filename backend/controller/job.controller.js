@@ -47,13 +47,18 @@ const getJobs = async (req, res, next) => {
 
         if (technicianId) filter.technician = technicianId;
         if (customerId) filter.customer = customerId;
-        if (status) filter.status = status;
-
-        const jobs = await Job.find(filter).populate('category', 'name').select('_id title category status preferredDate createdAt')
-        if(!jobs){
-            res.status(404)
-            throw new Error("No jobs found")
+        if (status) {
+            if (Array.isArray(status)) {
+                filter.status = { $in: status };
+            } else {
+                filter.status = status;
+            }
         }
+
+        const jobs = await Job.find(filter)
+            .populate('category', 'name')
+            .select('_id title category status preferredDate createdAt')
+
         res.json(jobs);
     }catch (error) {
         next(error);
