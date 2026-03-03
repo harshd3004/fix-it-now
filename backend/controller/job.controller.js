@@ -47,6 +47,19 @@ const getJobs = async (req, res, next) => {
 
         if (technicianId) filter.technician = technicianId;
         if (customerId) filter.customer = customerId;
+
+        //for jobs with open status, and for techinicans who have the skill of the job category
+        if (status && status === "open" && technicianId) {
+            const technician = await User.findById(technicianId);
+            if (!technician) {
+                res.status(404);
+                throw new Error("Technician not found");
+            }
+            filter.status = "open";
+            filter.category = { $in: technician.technicianProfile.skills };
+            filter.technician = null; // Only show unassigned jobs
+        }
+
         if (status) {
             if (Array.isArray(status)) {
                 filter.status = { $in: status };
