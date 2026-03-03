@@ -40,19 +40,17 @@ function JobListingPage() {
     },[type, user])
 
   return (
-        <div className="min-h-screen bg-gray-50">
-            <main className="container mx-auto px-8 py-10">
-                <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 mb-6">
-                    <h1 className="text-3xl font-bold text-gray-900">{title || 'Jobs'}</h1>
-                    <p className="text-gray-600 mt-2">Browse and manage jobs with quick status visibility.</p>
-                </div>
+        <main className="container mx-auto px-8 py-10">
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 mb-6">
+                <h1 className="text-3xl font-bold text-gray-900">{title || 'Jobs'}</h1>
+                <p className="text-gray-600 mt-2">Browse and manage jobs with quick status visibility.</p>
+            </div>
 
-                <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-                    {/*Impleming filtering in future*/}
-                    <JobList jobs={jobs} />
-                </div>
-            </main>
-    </div>
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+                {/*Impleming filtering in future*/}
+                <JobList jobs={jobs} />
+            </div>
+        </main>
   )
 }
 
