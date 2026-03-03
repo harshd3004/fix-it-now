@@ -24,8 +24,17 @@ function JobListingPage() {
 
     if (type === "past") {
         title = "Past Jobs";
+        const roleMap = {
+            customer: "customerId",
+            technician: "technicianId"
+        };
+
+        const roleKey = roleMap[user.role];
+
+        if (!roleKey) return;
+
         filter = {
-            technicianId: user.id,
+            [roleKey]: user.id,
             status: ["completed", "cancelled"]
         };
     }
