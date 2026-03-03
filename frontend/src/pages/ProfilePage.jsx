@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom"
-import Navbar from "../components/Navbar"
 import Profile from '../components/Profile'
 import { useAuth } from "../contexts/AuthContext";
 

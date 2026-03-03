@@ -1,5 +1,4 @@
 import { useAuth } from '../contexts/AuthContext';
-import Navbar from '../components/Navbar'
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';

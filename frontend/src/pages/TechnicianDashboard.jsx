@@ -1,4 +1,3 @@
-import Navbar from '../components/Navbar'
 import Profile from '../components/Profile'
 import JobList from '../components/JobList'
 import { useState, useEffect } from 'react'

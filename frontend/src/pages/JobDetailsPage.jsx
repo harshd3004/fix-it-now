@@ -5,7 +5,6 @@ import { useAuth } from '../contexts/AuthContext';
 import BidList from '../components/BidList';
 import { useEffect, useState } from 'react';
 import { getJobById } from '../api/jobsApi';
-import Navbar from '../components/Navbar';
 
 function JobDetailsPage() {
     const { jobId } = useParams();
