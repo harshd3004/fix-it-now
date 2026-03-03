@@ -3,21 +3,27 @@ import Profile from '../components/Profile'
 import JobList from '../components/JobList'
 import { useState, useEffect } from 'react'
 import { getJobs } from '../api/jobsApi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
 function TechnicianDashboard() {
 
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const [activeJobs, setJobs] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
+      if (loading) return;
+      if (!user) {
+        navigate("/");
+        return;
+      }
         async function fetchActiveJobs() {
             const response = await getJobs({ technicianId: user.id, status: ["assigned", "in-progress"] });
             setJobs(response);
         }
         fetchActiveJobs();
-    }, [user])
+    }, [user, loading, navigate])
 
   return (
     <div className='bg-gray-50 min-h-screen'>
@@ -29,7 +35,7 @@ function TechnicianDashboard() {
             {/* Left side - Profile Section */}
             <div className='lg:col-span-1 order-2 lg:order-1'>
 
-              <Profile userId={user.id} />
+              {user && <Profile userId={user.id} />}
 
               {/* Recent Reviews */}
               <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6'>

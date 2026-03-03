@@ -9,7 +9,7 @@ function Home() {
     const navigate = useNavigate();
 
     useEffect(() => {
-      if(user.role === 'technician') navigate('/technician-dashboard');
+      if( user && user.role === 'technician') navigate('/technician-dashboard');
     }, [user])
     
   return (
