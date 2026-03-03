@@ -44,3 +44,16 @@ export const getJobs = async (filters) => {
         throw error;
     }
 }
+
+export const getJobById = async (jobId) => {
+    try {
+        const response = await api.get(`/jobs/${jobId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching job by ID:', error);
+        if (error.response) {
+            console.error('Error fetching job by ID:', error.response.data.message);
+        }
+        throw error;
+    }
+}
