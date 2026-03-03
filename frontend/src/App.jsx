@@ -6,6 +6,7 @@ import TechnicianRegister from './pages/TechnicianRegister'
 import PostJob from './pages/PostJob'
 import ProfilePage from './pages/ProfilePage'
 import TechnicianDashboard from './pages/TechnicianDashboard'
+import JobListingPage from './pages/JobListingPage'
 
 function App() {
   
@@ -19,6 +20,7 @@ function App() {
         <Route path="/post-job" element={<PostJob/>}/>
         <Route path="/profile/:userId" element={<ProfilePage/>}/>
         <Route path="/technician-dashboard" element={<TechnicianDashboard/>}/>
+        <Route path="/jobs" element={<JobListingPage/>} />
       </Routes>
     </BrowserRouter>
   )
