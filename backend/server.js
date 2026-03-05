@@ -26,11 +26,13 @@ const authRoutes = require('./routes/auth.routes');
 const categoryRoutes = require('./routes/category.routes');
 const jobRoutes = require('./routes/job.routes');
 const userRoutes = require('./routes/user.routes');
+const bidRoutes = require('./routes/bid.routes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/bids', bidRoutes);
 
 app.get('/', (req, res) => {
   res.send('server is running');

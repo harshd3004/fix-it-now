@@ -1,5 +1,5 @@
 const Job = require("../models/Job");
-const Notification = require("../models/notification");
+const Notification = require("../models/Notification");
 const User = require("../models/User");
 
 const createJob = async (req, res, next) => {
