@@ -49,7 +49,7 @@ function Home() {
          </div>
        )}
 
-      {activeJobs && activeJobs.length > 0 && (
+      {user && activeJobs && activeJobs.length > 0 && (
         <section className='mt-20 space-y-8'>
         <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6'>
           <div className='flex items-center justify-between mb-6'>

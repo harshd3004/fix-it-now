@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import JobDetails from '../components/JobDetails'
 import { useAuth } from '../contexts/AuthContext';
 import BidList from '../components/BidList';
+import BidForm from '../components/BidForm';
 import { useEffect, useState } from 'react';
 import { getJobById } from '../api/jobsApi';
 
@@ -10,6 +11,7 @@ function JobDetailsPage() {
     const { jobId } = useParams();
     const { user } = useAuth();
     const [job, setJob] = useState(null);
+    const [showBidForm, setShowBidForm] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,9 +39,13 @@ function JobDetailsPage() {
 
             <div className='lg:col-span-1'>
                 {user && user.role === 'technician' && job && job.status === 'open' && (
-                    <button className='w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-sm mb-4'>
-                        Place a Bid
+                    <>
+                    <button className={`w-full ${showBidForm ? 'bg-gray-600 hover:bg-gray-700' : 'bg-blue-600 hover:bg-blue-700'} text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-sm mb-4`}
+                        onClick={() => setShowBidForm(prev => !prev)}>
+                        {showBidForm ? 'Close Bid Form' : 'Place a Bid'}
                     </button>
+                    {showBidForm && (<BidForm jobId={jobId} />)}
+                    </>
                 )}
 
                 {user && user.role === 'technician' && job && job.technician && job.technician._id === user.id && (
