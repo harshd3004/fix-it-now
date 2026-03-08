@@ -26,12 +26,11 @@ function BidForm({ jobId }) {
         setError('');
         try{
             const bidData = {
-                jobId,
                 proposedPrice,
                 estimatedCompletionDate,
                 message
             };
-            const response = await bidOnJob(bidData);
+            const response = await bidOnJob(jobId, bidData);
             console.log('Bid submitted successfully:', response);
             resetForm();
             setInfoMessage(response.message || 'Bid submitted successfully!');

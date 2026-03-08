@@ -4,7 +4,8 @@ const Notification = require('../models/Notification');
 
 const placeBid = async (req, res, next) => {
     try {
-        const { jobId, proposedPrice, estimatedCompletionDate, message } = req.body;
+        const { proposedPrice, estimatedCompletionDate, message } = req.body;
+        const jobId = req.params.id;
         const technicianId = req.user._id;
 
         if( !jobId || !proposedPrice){
