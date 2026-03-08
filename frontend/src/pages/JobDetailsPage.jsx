@@ -53,14 +53,14 @@ function JobDetailsPage() {
                         Update Job Status
                     </button>
                 )}
+                {user && user.role === 'customer' && (
+                    <div>
+                        <BidList jobId={jobId} />
+                    </div>
+                )}
             </div>
         </div>
 
-        {user && user.role === 'customer' && (
-            <div className='mt-12'>
-                <BidList jobId={jobId} />
-            </div>
-        )}
     </main>
   )
 }

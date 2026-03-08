@@ -25,3 +25,29 @@ export const getBidsForJob = async (jobId) => {
         throw error;
     }
 }
+
+export const acceptBid = async (bidId) => {
+    try {
+        const response = await api.post(`/bids/${bidId}/accept`);
+        return response.data;
+    }catch (error) {
+        console.error('Error accepting bid:', error);
+        if (error.response) {
+            console.error('Error accepting bid:', error.response.data.message);
+        }
+        throw error;
+    }
+}
+
+export const rejectBid = async (bidId) => {
+    try {
+        const response = await api.post(`/bids/${bidId}/reject`);
+        return response.data;
+    }catch (error) {
+        console.error('Error rejecting bid:', error);
+        if (error.response) {
+            console.error('Error rejecting bid:', error.response.data.message);
+        }
+        throw error;
+    }
+}
