@@ -76,7 +76,65 @@ const getBidsForJob = async (req, res, next) => {
     }
 }
 
+const acceptBid = async (req, res, next) => {
+    try {
+        const bidId = req.params.id;
+        const bid = await Bid.findById(bidId);
+        const job = await Job.findById(bid.job);
+        if (!bid) {
+            res.status(404);
+            throw new Error('Bid not found');
+        }
+        if(job.customer.toString() !== req.user._id.toString()){
+            res.status(403);
+            throw new Error('You are not authorized to accept this bid.');
+        }
+        if(bid.status !== 'pending'){
+            res.status(400);
+            throw new Error('Only pending bids can be accepted.');
+        }
+        job.technician = bid.technician;
+        job.status = 'assigned';
+        job.prefferedDate = bid.estimatedCompletionDate;
+        bid.status = 'accepted';
+        await bid.save();
+        await job.save();
+        res.status(200).json({ success: true, message: 'Bid accepted successfully' });
+    }
+    catch(err){
+        next(err);
+    }
+}
+
+const rejectBid = async (req, res, next) => {
+    try {
+        const bidId = req.params.id;
+        const bid = await Bid.findById(bidId);
+        const job = await Job.findById(bid.job);
+        if (!bid) {
+            res.status(404);
+            throw new Error('Bid not found');
+        }
+        if(job.customer.toString() !== req.user._id.toString()){
+            res.status(403);
+            throw new Error('You are not authorized to reject this bid.');
+        }
+        if(bid.status !== 'pending'){
+            res.status(400);
+            throw new Error('Only pending bids can be rejected.');
+        }
+        bid.status = 'rejected';
+        await bid.save();
+        res.status(200).json({ success: true, message: 'Bid rejected successfully' });
+    }
+    catch(err){
+        next(err);
+    }
+}
+
 module.exports = {
     placeBid,
-    getBidsForJob
+    getBidsForJob,
+    acceptBid,
+    rejectBid
 }
