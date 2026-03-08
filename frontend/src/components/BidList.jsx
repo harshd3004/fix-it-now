@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import BidItem from './BidItem';
-// import { getBidsByJobId } from '../api/bidsApi';
+import { getBidsForJob } from '../api/bidApi';
 
 function BidList({ jobId }) {
     const [bids, setBids] = useState([])
 
     useEffect(() => {
         async function fetchBids() {
-            const response = await getBidsByJobId(jobId);
+            const response = await getBidsForJob(jobId);
             setBids(response);
         }
         fetchBids();

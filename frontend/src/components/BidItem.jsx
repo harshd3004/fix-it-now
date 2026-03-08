@@ -1,4 +1,7 @@
+import { Link } from "react-router-dom";
+
 function BidItem({ bid }) {
+  
   return (
     <div className='bg-linear-to-r from-blue-50 to-gray-50 rounded-xl p-5 border border-blue-100 hover:shadow-md transition-shadow duration-200'>
       {/* Technician Header */}
@@ -35,6 +38,9 @@ function BidItem({ bid }) {
 
       {/* Action Buttons */}
       <div className='flex gap-3 mt-4'>
+        <Link to={`/profile/${bid.technician._id}`} className='flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-2 px-4 rounded-lg transition-colors duration-200'>
+          View Technician Profile
+        </Link>
         <button className='flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200'>
           Accept Bid
         </button>

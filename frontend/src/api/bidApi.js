@@ -12,3 +12,16 @@ export const bidOnJob = async (jobId, bidData) => {
         throw error;
     }
 }
+
+export const getBidsForJob = async (jobId) => {
+    try{
+        const response = await api.get(`/jobs/${jobId}/bids`);
+        return response.data;
+    }catch (error) {
+        console.error('Error fetching bids for job:', error);
+        if (error.response) {
+            console.error('Error fetching bids for job:', error.response.data.message);
+        }
+        throw error;
+    }
+}
