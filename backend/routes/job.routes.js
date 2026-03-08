@@ -9,6 +9,7 @@ router.post('/', authMiddleware, jobController.createJob);
 router.get('/', authMiddleware, jobController.getJobs);
 
 router.post('/:id/bids', authMiddleware, technicianMiddleware, bidController.placeBid);
+router.get('/:id/bids', authMiddleware, bidController.getBidsForJob);
 
 router.get('/:id', authMiddleware, jobController.getJobById);
 

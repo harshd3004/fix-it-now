@@ -53,6 +53,30 @@ const placeBid = async (req, res, next) => {
     }
 }
 
+const getBidsForJob = async (req, res, next) => {
+    try {
+        const jobId = req.params.id;
+        const job = await Job.findById(jobId).select('customer');
+        if(!job){
+            res.status(404);
+            throw new Error('Job not found');
+        }
+        //only the customer who posted the job can see the bids
+        if(job.customer.toString() !== req.user._id.toString()){
+            res.status(403);
+            throw new Error('You are not authorized to view the bids for this job.');
+        }
+
+        const bids = await Bid.find({ job: jobId }).populate('technician', 'name email');
+
+        res.status(200).json(bids);
+    }
+    catch(err){
+        next(err);
+    }
+}
+
 module.exports = {
-    placeBid
+    placeBid,
+    getBidsForJob
 }
