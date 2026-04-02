@@ -14,6 +14,12 @@ function JobDetailsPage() {
     const [showBidForm, setShowBidForm] = useState(false);
     const navigate = useNavigate();
 
+    const isTechnician = user?.role === 'technician';
+    const isCustomer = user?.role === 'customer';
+    const isJobOpen = job?.status === 'open';
+    const isAssignedTech = job?.technician?._id === user?.id;
+    const isJobOwner = job?.customer?._id === user?.id;
+
     useEffect(() => {
         async function fetchJobDetails() {
             const response = await getJobById(jobId);
@@ -38,24 +44,32 @@ function JobDetailsPage() {
             </div>
 
             <div className='lg:col-span-1'>
-                {user && user.role === 'technician' && job && job.status === 'open' && (
+                {isTechnician && isJobOpen && (
                     <>
-                    <button className={`w-full ${showBidForm ? 'bg-gray-600 hover:bg-gray-700' : 'bg-blue-600 hover:bg-blue-700'} text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-sm mb-4`}
-                        onClick={() => setShowBidForm(prev => !prev)}>
+                    <button
+                        className={`w-full ${
+                        showBidForm
+                            ? 'bg-gray-600 hover:bg-gray-700'
+                            : 'bg-blue-600 hover:bg-blue-700'
+                        } text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-sm mb-4`}
+                        onClick={() => setShowBidForm(prev => !prev)}
+                    >
                         {showBidForm ? 'Close Bid Form' : 'Place a Bid'}
                     </button>
-                    {showBidForm && (<BidForm jobId={jobId} />)}
+
+                    {showBidForm && <BidForm jobId={jobId} />}
                     </>
                 )}
 
-                {user && user.role === 'technician' && job && job.technician && job.technician._id === user.id && (
+                {isTechnician && isAssignedTech && (
                     <button className='w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-sm'>
-                        Update Job Status
+                    Update Job Status
                     </button>
                 )}
-                {user && user.role === 'customer' && (
+
+                {isCustomer && isJobOwner && (
                     <div>
-                        <BidList jobId={jobId} />
+                    <BidList jobId={jobId} />
                     </div>
                 )}
             </div>
