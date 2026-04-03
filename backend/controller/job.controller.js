@@ -11,7 +11,9 @@ const createJob = async (req, res, next) => {
             res.status(400)
             throw new Error("Title and category are required")
         }
-    
+        
+        const imagePaths = req.files ? req.files.map(file => file.path) : [];
+
         const jobData = {
             title,
             description,

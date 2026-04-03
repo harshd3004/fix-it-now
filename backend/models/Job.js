@@ -24,7 +24,9 @@ const JobSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-
+    images: [{
+        type: String
+    }],
     prefferedDate: {
         type: Date
     },

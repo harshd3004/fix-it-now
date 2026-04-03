@@ -2,9 +2,9 @@ const router = require('express').Router();
 const jobController = require('../controller/job.controller');
 const bidController = require('../controller/bid.controller');
 const { authMiddleware, technicianMiddleware } = require('../middleware/authMiddleware');
+const upload = require('../middleware/upload');
 
-
-router.post('/', authMiddleware, jobController.createJob);
+router.post('/', authMiddleware, upload.array("images", 5), jobController.createJob);
 router.get('/', authMiddleware, jobController.getJobs);
 
 router.post('/:id/bids', authMiddleware, technicianMiddleware, bidController.placeBid);
