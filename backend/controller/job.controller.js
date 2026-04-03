@@ -5,9 +5,9 @@ const StatusRequest = require("../models/StatusRequest");
 
 const createJob = async (req, res, next) => {
     try{
-        const { title, description, categoryId, preferredDate } = req.body;
-    
-        if(!title || !categoryId){
+        const { title, description, category, preferredDate } = req.body;
+        
+        if(!title || !category){
             res.status(400)
             throw new Error("Title and category are required")
         }
@@ -17,9 +17,10 @@ const createJob = async (req, res, next) => {
         const jobData = {
             title,
             description,
-            category: categoryId,
+            category: category,
             customer: req.user._id,
-            preferredDate
+            preferredDate,
+            images: imagePaths
         }
     
         const job = await Job.create(jobData);
@@ -30,7 +31,7 @@ const createJob = async (req, res, next) => {
         })
 
         //send notification to technicians about new job with same category
-        const technicians = await User.find({ role: "technician", "technicianProfile.skills": categoryId });
+        const technicians = await User.find({ role: "technician", "technicianProfile.skills": category });
         const notifications = technicians.map(technician => ({
             user: technician._id,
             message: `New job created in your category: ${title}`,
