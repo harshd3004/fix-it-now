@@ -159,6 +159,19 @@ const updateJobStatus = async (req, res, next) => {
     }
 }
 
+const getStatusRequestsForJob = async (req, res, next) => {
+    try {
+        const jobId = req.params.id;
+        const statusRequest = await StatusRequest.findOne({ job: jobId });
+        if(statusRequest.status !== "pending"){
+            return res.json(null);
+        }
+        res.json(statusRequest);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const approveStatusUpdate = async (req, res, next) => {
     try {
         const reqId = req.params.id;
@@ -252,6 +265,7 @@ module.exports = {
     getJobs,
     getJobById,
     updateJobStatus,
+    getStatusRequestsForJob,
     approveStatusUpdate,
     rejectStatusUpdate
 }
