@@ -12,7 +12,7 @@ const createJob = async (req, res, next) => {
             throw new Error("Title and category are required")
         }
         
-        const imagePaths = req.files ? req.files.map(file => file.path) : [];
+        const imagePaths = req.files ? req.files.map(file => file.path.replace(/\\/g, "/")) : [];
 
         const jobData = {
             title,
