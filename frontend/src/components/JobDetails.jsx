@@ -27,6 +27,32 @@ function JobDetails({ jobData }) {
                     <p className='text-gray-700 text-lg leading-relaxed'>{jobData.description}</p>
                 </div>
 
+                {/* Job Images */}
+                {jobData?.images && jobData.images.length > 0 && (
+                <div className="mt-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                    Images
+                    </h3>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {jobData.images.map((img, index) => {
+                        const imageUrl = `${import.meta.env.VITE_BASE_URL}/${img}`;
+                        console.log(imageUrl);
+                        
+                        return (
+                        <img
+                            key={index}
+                            src={imageUrl}
+                            alt='job'
+                            className="w-full h-32 object-cover rounded-lg border border-gray-200 hover:scale-105 transition-transform duration-200 cursor-pointer"
+                            onClick={() => window.open(imageUrl, "_blank")}
+                        />
+                        );
+                    })}
+                    </div>
+                </div>
+                )}
+
                 {/* Details Grid */}
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                     {/* Left Column */}
