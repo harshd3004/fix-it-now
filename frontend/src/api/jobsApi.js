@@ -20,7 +20,11 @@ const buildQueryParams = (filters) => {
 
 export const postJob = async (jobData) => {
     try {
-        const response = await api.post('/jobs', jobData);
+        const response = await api.post('/jobs', jobData,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
         return response.data;
     } catch (error) {
         console.error('Error posting job:', error);

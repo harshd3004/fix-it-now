@@ -7,6 +7,7 @@ import SkillDropdown from '../components/SkillDropdown';
 function PostJob() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [images, setImages] = useState([]);
     const [location, setLocation] = useState('');
     const [category, setCategory] = useState('');
     const [categories, setCategories] = useState([]);
@@ -22,12 +23,27 @@ function PostJob() {
         setError('');
         setIsLoading(true);
         try{
-            const jobData = { title, description, categoryId: category, preferredDate };
-            const response = await postJob(jobData);
+            if(images.length < 1){
+                setError('Please upload at least 1 image');
+                setIsLoading(false);
+                return;
+            }
+            let formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('location', location);
+            formData.append('category', category);
+            formData.append('preferredDate', preferredDate);
+
+            images.forEach((img) => {
+                formData.append('images', img);
+            });
+            
+            const response = await postJob(formData);
             console.log('Job posted successfully:', response);
             
             navigate('/');
-            
+
         }catch(error){
             setError('Failed to post job. Please try again.');
             if(error.response.data.message){
@@ -61,6 +77,57 @@ function PostJob() {
                 )}
                 
                 <form className="space-y-4" onSubmit={handleSubmit}>
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-900 mb-2">
+                            Upload Images (1-5)
+                        </label>
+
+                        <div className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white hover:border-gray-400 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent transition">
+                            <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={(e) => {
+                                    const files = Array.from(e.target.files);
+
+                                    if (files.length > 5) {
+                                        setError("You can upload maximum 5 images");
+                                        return;
+                                    }
+
+                                    setImages(files);
+                                }}
+                                className="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Image Preview */}
+                    {images.length > 0 && (
+                        <div className="mt-3 grid grid-cols-5 gap-2">
+                            {images.map((img, index) => (
+                                <div key={index} className="relative group">
+                                    <img
+                                        src={URL.createObjectURL(img)}
+                                        alt="preview"
+                                        className="w-full h-20 object-cover rounded-lg border border-gray-200"
+                                    />
+                                    
+                                    {/* Optional remove button */}
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            const updated = images.filter((_, i) => i !== index);
+                                            setImages(updated);
+                                        }}
+                                        className="absolute top-1 right-1 bg-black/60 text-white text-xs px-1 rounded opacity-0 group-hover:opacity-100 transition"
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                     <div>
                         <label htmlFor="title" className="block text-sm font-semibold text-gray-900 mb-2">Job Title</label>
                         <input 
