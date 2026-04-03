@@ -4,6 +4,8 @@ import JobDetails from '../components/JobDetails'
 import { useAuth } from '../contexts/AuthContext';
 import BidList from '../components/BidList';
 import BidForm from '../components/BidForm';
+import UpdateDialog from '../components/UpdateDialog';
+import UpdateRequestDialog from '../components/UpdateRequestDialog';
 import { useEffect, useState } from 'react';
 import { getJobById } from '../api/jobsApi';
 
@@ -12,6 +14,7 @@ function JobDetailsPage() {
     const { user } = useAuth();
     const [job, setJob] = useState(null);
     const [showBidForm, setShowBidForm] = useState(false);
+    const [showUpdateDialog, setShowUpdateDialog] = useState(false);
     const navigate = useNavigate();
 
     const isTechnician = user?.role === 'technician';
@@ -29,11 +32,11 @@ function JobDetailsPage() {
     }, [jobId])
 
   return (
-    
-    <main className='container mx-auto px-8 py-12'>
+    <div className='bg-gray-50 min-h-screen'>
+    <main className='container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10'>
         <button
             onClick={() => navigate(-1)}
-            className='mb-6 text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200 flex items-center gap-2 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg'
+            className='mb-6 text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200 flex items-center gap-2 bg-white hover:bg-gray-100 border border-gray-200 px-4 py-2 rounded-lg shadow-sm'
         >
             ← Back
         </button>
@@ -43,9 +46,9 @@ function JobDetailsPage() {
                 <JobDetails jobData={job}/>
             </div>
 
-            <div className='lg:col-span-1'>
+            <div className='lg:col-span-1 space-y-4'>
                 {isTechnician && isJobOpen && (
-                    <>
+                    <div className='bg-white rounded-xl border border-gray-200 shadow-sm p-4'>
                     <button
                         className={`w-full ${
                         showBidForm
@@ -58,24 +61,37 @@ function JobDetailsPage() {
                     </button>
 
                     {showBidForm && <BidForm jobId={jobId} />}
-                    </>
+                    </div>
                 )}
 
                 {isTechnician && isAssignedTech && (
-                    <button className='w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-sm'>
-                    Update Job Status
+                    <div className='bg-white rounded-xl border border-gray-200 shadow-sm p-4'>
+                    <button 
+                        className='w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-sm'
+                        onClick={() => setShowUpdateDialog(prev => !prev)}
+                    >
+                        {showUpdateDialog ? 'Close Update Dialog' : 'Update Job Status'}
                     </button>
+                    {showUpdateDialog && <UpdateDialog jobStatus={job.status} jobId={jobId} />}
+                    </div>
                 )}
 
-                {isCustomer && isJobOwner && (
-                    <div>
+                {isCustomer && isJobOwner && isJobOpen && (
+                    <div className='bg-white rounded-xl border border-gray-200 shadow-sm p-4'>
                     <BidList jobId={jobId} />
+                    </div>
+                )}
+
+                {isCustomer && isJobOwner && !isJobOpen && (
+                    <div className='bg-white rounded-xl border border-gray-200 shadow-sm p-4'>
+                     <UpdateRequestDialog jobId={jobId} />
                     </div>
                 )}
             </div>
         </div>
 
     </main>
+    </div>
   )
 }
 

@@ -57,3 +57,56 @@ export const getJobById = async (jobId) => {
         throw error;
     }
 }
+
+//job status related APIs----------
+export const updateJobStatus = async (jobId, oldStatus, newStatus) => {
+    try {
+        const response = await api.post(`/jobs/${jobId}/update-status`, { fromStatus: oldStatus, toStatus: newStatus });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating job status:', error);
+        if (error.response) {
+            console.error('Error updating job status:', error.response.data.message);
+        }
+        throw error;
+    }
+}
+
+export const getStatusRequest = async (jobId) => {
+    try {
+        const response = await api.get(`/jobs/${jobId}/status-request`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching status request:', error);
+        if (error.response) {
+            console.error('Error fetching status request:', error.response.data.message);
+        }
+        throw error;
+    }
+}
+
+export const approveStatusRequest = async (requestId) => {
+    try {
+        const response = await api.post(`/status-requests/${requestId}/approve`);
+        return response.data;
+    } catch (error) {
+        console.error('Error approving status request:', error);
+        if (error.response) {
+            console.error('Error approving status request:', error.response.data.message);
+        }
+        throw error;
+    }
+}
+
+export const rejectStatusRequest = async (requestId) => {
+    try {
+        const response = await api.post(`/status-requests/${requestId}/reject`);
+        return response.data;
+    } catch (error) {
+        console.error('Error rejecting status request:', error);
+        if (error.response) {
+            console.error('Error rejecting status request:', error.response.data.message);
+        }
+        throw error;
+    }
+}
