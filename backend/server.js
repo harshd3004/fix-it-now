@@ -30,6 +30,7 @@ const jobRoutes = require('./routes/job.routes');
 const userRoutes = require('./routes/user.routes');
 const bidRoutes = require('./routes/bid.routes');
 const statusRequestRoutes = require('./routes/status-requests.routes');
+const notificationRoutes = require('./routes/notification.routes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
@@ -37,6 +38,7 @@ app.use('/api/jobs', jobRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bids', bidRoutes);
 app.use('/api/status-requests', statusRequestRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 app.get('/', (req, res) => {
   res.send('server is running');
