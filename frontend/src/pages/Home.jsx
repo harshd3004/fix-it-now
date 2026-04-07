@@ -12,13 +12,9 @@ const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') || '';
 function resolveCategoryIcon(imageIcon) {
   if (!imageIcon) {
     return defaultCategoryIcon;
-  }
-
-  if (/^(https?:|data:|blob:)/i.test(imageIcon)) {
+  }else{
     return imageIcon;
-  }
-
-  return `${apiBaseUrl}/${imageIcon.replace(/^\//, '')}`;
+  };
 }
 
 function Home() {
