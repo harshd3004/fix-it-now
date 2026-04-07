@@ -3,24 +3,74 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getJobs } from '../api/jobsApi';
+import { getCategoriesList } from '../api/categoryApi';
 import JobList from '../components/JobList';
+import defaultCategoryIcon from '../assets/default-category-icon.svg';
+
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') || '';
+
+function resolveCategoryIcon(imageIcon) {
+  if (!imageIcon) {
+    return defaultCategoryIcon;
+  }
+
+  if (/^(https?:|data:|blob:)/i.test(imageIcon)) {
+    return imageIcon;
+  }
+
+  return `${apiBaseUrl}/${imageIcon.replace(/^\//, '')}`;
+}
 
 function Home() {
     const {user, loading} = useAuth();
     const navigate = useNavigate();
     const [activeJobs, setActiveJobs] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [categoriesLoading, setCategoriesLoading] = useState(true);
 
     useEffect(() => {
       if(loading) return;
       if(!user) return;
-      if(user.role === 'technician') navigate('/technician-dashboard');
+      if(user.role === 'technician') {
+        navigate('/technician-dashboard');
+        return;
+      }
 
       async function fetchActiveJobs() {
         const response = await getJobs({ customerId: user.id, status: ["open", "assigned", "in-progress"] });
         setActiveJobs(response);
       }
       fetchActiveJobs();
-    }, [user])
+    }, [loading, navigate, user])
+
+    useEffect(() => {
+      let isMounted = true;
+
+      async function fetchCategories() {
+        try {
+          setCategoriesLoading(true);
+          const response = await getCategoriesList();
+
+          if (isMounted) {
+            setCategories(Array.isArray(response) ? response : []);
+          }
+        } catch {
+          if (isMounted) {
+            setCategories([]);
+          }
+        } finally {
+          if (isMounted) {
+            setCategoriesLoading(false);
+          }
+        }
+      }
+
+      fetchCategories();
+
+      return () => {
+        isMounted = false;
+      };
+    }, [])
     
   return (
     
@@ -67,14 +117,28 @@ function Home() {
            <h2 className='text-3xl font-bold text-gray-900 mb-2'>Explore Services</h2>
            <p className='text-gray-600'>Browse popular service categories</p>
          </div>
-         <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-           {['Plumbing', 'Electrical', 'Appliance Repair'].map((category, i) => (
-             <div key={i} className='bg-white rounded-xl p-6 border border-gray-200 hover:shadow-md transition-shadow duration-200 cursor-pointer'>
-               <div className='w-12 h-12 bg-blue-100 rounded-lg mb-4'></div>
-               <h3 className='text-lg font-semibold text-gray-900'>{category}</h3>
-               <p className='text-gray-600 text-sm mt-2'>Find local technicians</p>
-             </div>
-           ))}
+         <div className='grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3'>
+           {categoriesLoading ? (
+             <div className='col-span-full rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center text-gray-500'>Loading categories...</div>
+           ) : categories.length > 0 ? (
+             categories.map((category) => (
+               <article key={category._id || category.name} className='group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md'>
+                 <div className='mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 ring-1 ring-blue-100'>
+                   <img
+                     src={resolveCategoryIcon(category.imageIcon)}
+                     alt={`${category.name} icon`}
+                     className='h-8 w-8 object-contain'
+                   />
+                 </div>
+                 <h3 className='text-lg font-semibold text-gray-900'>{category.name}</h3>
+                 <p className='mt-2 text-sm leading-6 text-gray-600'>
+                   {category.description || 'Find trusted local technicians for this service.'}
+                 </p>
+               </article>
+             ))
+           ) : (
+             <div className='col-span-full rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center text-gray-500'>No categories available right now.</div>
+           )}
          </div>
        </section>
      </main>
