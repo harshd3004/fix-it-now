@@ -87,7 +87,7 @@ function JobDetailsPage() {
                     >
                         {showUpdateDialog ? 'Close Update Dialog' : 'Update Job Status'}
                     </button>
-                    {showUpdateDialog && <UpdateDialog jobStatus={job.status} jobId={jobId} />}
+                    {showUpdateDialog && <UpdateDialog jobStatus={job?.status} jobId={jobId} />}
                     </div>
                 )}
 
