@@ -1,14 +1,35 @@
 import { Link } from "react-router-dom";
+import { useState } from 'react';
 import { acceptBid, rejectBid } from '../api/bidApi';
 
-function BidItem({ bid }) {
-  
-  const handleAcceptBid = () => {
-    acceptBid(bid._id);
-  };
+function BidItem({ bid, onActionSuccess }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [actionMessage, setActionMessage] = useState('');
+  const [actionError, setActionError] = useState('');
 
-  const handleRejectBid = () => {
-    rejectBid(bid._id);
+  const handleBidAction = async (actionType) => {
+    setIsSubmitting(true);
+    setActionMessage('');
+    setActionError('');
+
+    try {
+      if (actionType === 'accept') {
+        await acceptBid(bid._id);
+        setActionMessage('Bid accepted successfully. Refreshing job details...');
+      } else {
+        await rejectBid(bid._id);
+        setActionMessage('Bid declined successfully. Refreshing job details...');
+      }
+
+      if (onActionSuccess) {
+        await onActionSuccess(actionType, actionType === 'accept' ? 'Bid accepted successfully.' : 'Bid declined successfully.');
+      }
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message || `Failed to ${actionType} bid. Please try again.`;
+      setActionError(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   return (
@@ -45,16 +66,42 @@ function BidItem({ bid }) {
         </div>
       )}
 
+      {actionMessage && (
+        <div className='mt-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700'>
+          {actionMessage}
+        </div>
+      )}
+
+      {actionError && (
+        <div className='mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700'>
+          {actionError}
+        </div>
+      )}
+
       {/* Action Buttons */}
       <div className='flex gap-3 mt-4'>
-        <Link to={`/profile/${bid.technician._id}`} className='flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-2 px-4 rounded-lg transition-colors duration-200'>
-          View Technician Profile
-        </Link>
-        <button onClick={handleAcceptBid} className='flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200'>
-          Accept Bid
+        {bid.technician?._id ? (
+          <Link to={`/profile/${bid.technician._id}`} className='flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-2 px-4 rounded-lg transition-colors duration-200'>
+            View Technician Profile
+          </Link>
+        ) : (
+          <button disabled className='flex-1 bg-gray-200 text-gray-500 font-semibold py-2 px-4 rounded-lg cursor-not-allowed'>
+            Profile Unavailable
+          </button>
+        )}
+        <button
+          onClick={() => handleBidAction('accept')}
+          disabled={isSubmitting}
+          className='flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200'
+        >
+          {isSubmitting ? 'Processing...' : 'Accept Bid'}
         </button>
-        <button onClick={handleRejectBid} className='flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-2 px-4 rounded-lg transition-colors duration-200'>
-          Decline
+        <button
+          onClick={() => handleBidAction('reject')}
+          disabled={isSubmitting}
+          className='flex-1 bg-gray-200 hover:bg-gray-300 disabled:bg-gray-300 text-gray-900 font-semibold py-2 px-4 rounded-lg transition-colors duration-200'
+        >
+          {isSubmitting ? 'Processing...' : 'Decline'}
         </button>
       </div>
     </div>
