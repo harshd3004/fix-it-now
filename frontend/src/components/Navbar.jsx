@@ -4,9 +4,11 @@ import NotificationDropdown from './NotificationDropdown'
 
 function Navbar() {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
+    navigate('/');
   };
 
   return (
