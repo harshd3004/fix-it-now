@@ -2,6 +2,7 @@ const Job = require("../models/Job");
 const Notification = require("../models/Notification");
 const User = require("../models/User");
 const StatusRequest = require("../models/StatusRequest");
+const Review = require("../models/Review");
 
 const createJob = async (req, res, next) => {
     try{
@@ -178,7 +179,7 @@ const getStatusRequestsForJob = async (req, res, next) => {
 const approveStatusUpdate = async (req, res, next) => {
     try {
         const reqId = req.params.id;
-        console.log(reqId);
+        const { rating, comment } = req.body;
         
         const statusRequest = await StatusRequest.findById(reqId);
 
@@ -200,6 +201,59 @@ const approveStatusUpdate = async (req, res, next) => {
         if(job.customer.toString() !== req.user._id.toString()){
             res.status(403);
             throw new Error("You are not the customer for this job");
+        }
+
+        if (statusRequest.toStatus === 'completed') {
+            if (rating === undefined || rating === null || Number.isNaN(Number(rating))) {
+                res.status(400);
+                throw new Error('Rating is required when approving completion.');
+            }
+
+            const numericRating = Number(rating);
+            if (numericRating < 1 || numericRating > 5) {
+                res.status(400);
+                throw new Error('Rating must be between 1 and 5.');
+            }
+
+            if (!job.technician) {
+                res.status(400);
+                throw new Error('Cannot create a review because no technician is assigned to this job.');
+            }
+
+            const existingReview = await Review.findOne({ job: job._id, customer: req.user._id });
+            if (existingReview) {
+                res.status(400);
+                throw new Error('Review already exists for this job.');
+            }
+
+            await Review.create({
+                job: job._id,
+                customer: req.user._id,
+                technician: job.technician,
+                rating: numericRating,
+                comment: comment || ''
+            });
+
+            const ratingStats = await Review.aggregate([
+                { $match: { technician: job.technician } },
+                {
+                    $group: {
+                        _id: '$technician',
+                        averageRating: { $avg: '$rating' },
+                        ratingCount: { $sum: 1 }
+                    }
+                }
+            ]);
+
+            const averageRating = ratingStats?.[0]?.averageRating || 0;
+            const ratingCount = ratingStats?.[0]?.ratingCount || 0;
+
+            await User.findByIdAndUpdate(job.technician, {
+                $set: {
+                    'technicianProfile.ratingAverage': Number(averageRating.toFixed(2)),
+                    'technicianProfile.ratingCount': ratingCount
+                }
+            });
         }
 
         job.status = statusRequest.toStatus;

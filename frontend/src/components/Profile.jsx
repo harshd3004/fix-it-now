@@ -53,8 +53,12 @@ function Profile({ userId }) {
                         <div className="bg-blue-50 rounded-lg p-4">
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">Rating</h3>
                             <div className="flex items-center gap-2">
-                                <span className="text-2xl font-bold text-blue-600">{profileData.technicianProfile.averageRating || 0}</span>
-                                <span className="text-gray-600">out of 5 ({profileData.technicianProfile.reviewCount || 0} reviews)</span>
+                                <span className="text-2xl font-bold text-blue-600">
+                                    {profileData.technicianProfile.ratingAverage ?? profileData.technicianProfile.averageRating ?? 0}
+                                </span>
+                                <span className="text-gray-600">
+                                    out of 5 ({profileData.technicianProfile.ratingCount ?? profileData.technicianProfile.reviewCount ?? 0} reviews)
+                                </span>
                             </div>
                         </div>
 

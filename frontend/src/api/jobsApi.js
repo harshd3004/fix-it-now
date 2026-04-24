@@ -89,9 +89,9 @@ export const getStatusRequest = async (jobId) => {
     }
 }
 
-export const approveStatusRequest = async (requestId) => {
+export const approveStatusRequest = async (requestId, reviewData = {}) => {
     try {
-        const response = await api.post(`/status-requests/${requestId}/approve`);
+        const response = await api.post(`/status-requests/${requestId}/approve`, reviewData);
         return response.data;
     } catch (error) {
         console.error('Error approving status request:', error);

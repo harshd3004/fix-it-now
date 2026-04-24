@@ -3,6 +3,8 @@ import { getStatusRequest, approveStatusRequest, rejectStatusRequest } from '../
 
 function UpdateRequestDialog( { jobId } ) {
   const [statusRequest, setStatusRequest] = useState(null);
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState('');
 
   const [error, setError] = useState('');
   const [infoMessage, setInfoMessage] = useState('');
@@ -21,6 +23,10 @@ function UpdateRequestDialog( { jobId } ) {
         try {
             const response = await getStatusRequest(jobId);
             setStatusRequest(response);
+            if (response?.toStatus === 'completed') {
+              setReviewRating(5);
+              setReviewComment('');
+            }
         } catch (error) {
             console.error('Error fetching status requests:', error.response?.data?.message || error.message);
             setError(error.response?.data?.message || 'An error occurred while fetching status requests.');
@@ -32,13 +38,26 @@ function UpdateRequestDialog( { jobId } ) {
   }, [jobId]);
 
   const approveRequest = async() => {
+    if (!statusRequest) return;
+
+    const isCompletionRequest = statusRequest.toStatus === 'completed';
+    if (isCompletionRequest && (!reviewRating || Number(reviewRating) < 1 || Number(reviewRating) > 5)) {
+      setError('Please provide a rating between 1 and 5.');
+      return;
+    }
+
     setIsLoading(true);
     setError('');
     setInfoMessage('');
     try {
-      const response = await approveStatusRequest(statusRequest._id);
+      const payload = isCompletionRequest
+        ? { rating: Number(reviewRating), comment: reviewComment }
+        : {};
+
+      const response = await approveStatusRequest(statusRequest._id, payload);
       setInfoMessage(response.message || 'Status update request approved successfully!');
       setStatusRequest(null);
+      setReviewComment('');
     } catch (error) {
       setError(error.response?.data?.message || 'An error occurred while approving the status request.');
     } finally {
@@ -47,6 +66,8 @@ function UpdateRequestDialog( { jobId } ) {
   }
 
   const rejectRequest = async() => {
+    if (!statusRequest) return;
+
     setIsLoading(true);
     setError('');
     setInfoMessage('');
@@ -80,6 +101,42 @@ function UpdateRequestDialog( { jobId } ) {
             </span>
           </div>
         </div>
+
+        {statusRequest.toStatus === 'completed' && (
+          <div className="mt-5 rounded-lg border border-blue-200 bg-blue-50 px-4 py-4 space-y-4">
+            <h3 className="text-sm font-semibold text-gray-900">Review Technician</h3>
+            <p className="text-xs text-gray-600">Provide rating and optional comment while approving completion.</p>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Rating (1 to 5)</label>
+              <select
+                value={reviewRating}
+                onChange={(e) => setReviewRating(Number(e.target.value))}
+                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={isLoading}
+              >
+                {[5, 4, 3, 2, 1].map((ratingValue) => (
+                  <option key={ratingValue} value={ratingValue}>
+                    {ratingValue} Star{ratingValue > 1 ? 's' : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Comment (Optional)</label>
+              <textarea
+                value={reviewComment}
+                onChange={(e) => setReviewComment(e.target.value)}
+                rows={3}
+                maxLength={500}
+                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Share your service experience..."
+                disabled={isLoading}
+              />
+            </div>
+          </div>
+        )}
 
         <div className="mt-5 flex flex-col sm:flex-row gap-3">
           <button
