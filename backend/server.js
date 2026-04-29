@@ -31,6 +31,7 @@ const userRoutes = require('./routes/user.routes');
 const bidRoutes = require('./routes/bid.routes');
 const statusRequestRoutes = require('./routes/status-requests.routes');
 const notificationRoutes = require('./routes/notification.routes');
+const adminRoutes = require('./routes/admin.routes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
@@ -39,6 +40,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/bids', bidRoutes);
 app.use('/api/status-requests', statusRequestRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.get('/', (req, res) => {
   res.send('server is running');

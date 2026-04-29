@@ -8,6 +8,7 @@ import ProfilePage from './pages/ProfilePage'
 import TechnicianDashboard from './pages/TechnicianDashboard'
 import JobListingPage from './pages/JobListingPage'
 import JobDetailsPage from './pages/JobDetailsPage'
+import AdminPanel from './pages/AdminPanel'
 import MainLayout from './layouts/MainLayout'
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/technician-dashboard" element={<TechnicianDashboard/>}/>
           <Route path="/jobs" element={<JobListingPage/>} />
           <Route path="/job/:jobId" element={<JobDetailsPage/>} />
+          <Route path="/admin" element={<AdminPanel/>} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -35,6 +35,14 @@ function Navbar() {
             >
               Profile
             </NavLink>
+            {user.role === 'admin' && (
+              <NavLink
+                to='/admin'
+                className='hidden sm:inline-flex text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200'
+              >
+                Admin Panel
+              </NavLink>
+            )}
             <button
               onClick={handleLogout}
               className='text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200'
