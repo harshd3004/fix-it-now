@@ -19,6 +19,14 @@ const placeBid = async (req, res, next) => {
             throw new Error('Job not found');
         }
 
+        // Verify that the technician is verified before placing a bid
+        const User = require('../models/User');
+        const technician = await User.findById(technicianId);
+        if (!technician || !technician.technicianProfile.isVerified) {
+            res.status(400);
+            throw new Error('You must be verified to place a bid.');
+        }
+
         const bidData = {
             job: jobId,
             technician: technicianId,
@@ -93,6 +101,7 @@ const acceptBid = async (req, res, next) => {
             res.status(400);
             throw new Error('Only pending bids can be accepted.');
         }
+
         job.technician = bid.technician;
         job.status = 'assigned';
         job.prefferedDate = bid.estimatedCompletionDate;

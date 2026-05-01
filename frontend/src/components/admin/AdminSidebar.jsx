@@ -1,8 +1,8 @@
-function AdminSidebar() {
+function AdminSidebar({ activeSection, onSectionChange }) {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', active: true },
+    { id: 'technician-verification', label: 'Technician Verification System', active: true },
     { id: 'user-management', label: 'User Management', active: false },
-    { id: 'technician-verification', label: 'Technician Verification System', active: false },
     { id: 'category-management', label: 'Category Management', active: false }
   ];
 
@@ -18,10 +18,13 @@ function AdminSidebar() {
           <button
             key={item.id}
             type='button'
+            onClick={() => item.active && onSectionChange(item.id)}
             disabled={!item.active}
             className={`w-full rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors duration-200 ${
-              item.active
+              activeSection === item.id && item.active
                 ? 'bg-blue-600 text-white'
+                : item.active
+                ? 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                 : 'bg-gray-100 text-gray-500 cursor-not-allowed'
             }`}
           >
