@@ -110,7 +110,7 @@ function Home() {
           
        <section className='mt-20 space-y-8'>
          <div>
-           <h2 className='text-3xl font-bold text-gray-900 mb-2'>Explore Services</h2>
+           <h2 className='text-3xl font-bold text-gray-900 mb-2'>Available Services</h2>
            <p className='text-gray-600'>Browse popular service categories</p>
          </div>
          <div className='grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3'>
