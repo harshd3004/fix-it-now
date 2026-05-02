@@ -68,8 +68,10 @@ function JobDetails({ jobData }) {
                                 <p className='text-gray-600'>{jobData.customer?.name || 'Unknown'}</p>
                             </div>
                             <div>
-                                <p className='text-sm font-medium text-gray-700'>Preferred Date</p>
-                                <p className='text-gray-600'>{new Date(jobData.preferredDate).toLocaleDateString()}</p>
+                                <p className='text-sm font-medium text-gray-700'>Scheduled Completion date</p>
+                                <p className='text-gray-600'>
+                                    {jobData.prefferedDate ? new Date(jobData.prefferedDate).toLocaleDateString() : 'Not scheduled'}
+                                </p>
                             </div>
                         </div>
                     </div>

@@ -42,7 +42,7 @@ function BidItem({ bid, onActionSuccess }) {
         </div>
         <div className='text-right'>
           <p className='text-xs text-gray-600 font-medium'>Proposed Price</p>
-          <p className='text-2xl font-bold text-blue-600'>${bid.proposedPrice || '0'}</p>
+          <p className='text-2xl font-bold text-blue-600'>Rs {bid.proposedPrice || '0'}</p>
         </div>
       </div>
 

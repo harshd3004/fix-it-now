@@ -32,6 +32,7 @@ const bidRoutes = require('./routes/bid.routes');
 const statusRequestRoutes = require('./routes/status-requests.routes');
 const notificationRoutes = require('./routes/notification.routes');
 const adminRoutes = require('./routes/admin.routes');
+const rescheduleRoutes = require('./routes/reschedule.routes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
@@ -41,6 +42,7 @@ app.use('/api/bids', bidRoutes);
 app.use('/api/status-requests', statusRequestRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/reschedule', rescheduleRoutes);
 
 app.get('/', (req, res) => {
   res.send('server is running');
@@ -51,3 +53,4 @@ app.use(errorMiddleware);
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
+

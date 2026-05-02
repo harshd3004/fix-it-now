@@ -114,3 +114,56 @@ export const rejectStatusRequest = async (requestId) => {
         throw error;
     }
 }
+// Reschedule request related APIs
+export const requestReschedule = async (jobId, proposedDate, reason) => {
+    try {
+        const response = await api.post(`/reschedule/${jobId}/request`, { proposedDate, reason });
+        return response.data;
+    } catch (error) {
+        console.error('Error requesting reschedule:', error);
+        if (error.response) {
+            console.error('Error requesting reschedule:', error.response.data.message);
+        }
+        throw error;
+    }
+};
+
+export const getPendingRescheduleRequests = async (jobId) => {
+    try {
+        const response = await api.get(`/reschedule/${jobId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching reschedule requests:', error);
+        if (error.response) {
+            console.error('Error fetching reschedule requests:', error.response.data.message);
+        }
+        throw error;
+    }
+};
+
+export const approveRescheduleRequest = async (requestId) => {
+    try {
+        const response = await api.post(`/reschedule/${requestId}/approve`);
+        return response.data;
+    } catch (error) {
+        console.error('Error approving reschedule request:', error);
+        if (error.response) {
+            console.error('Error approving reschedule request:', error.response.data.message);
+        }
+        throw error;
+    }
+};
+
+export const rejectRescheduleRequest = async (requestId) => {
+    try {
+        const response = await api.post(`/reschedule/${requestId}/reject`);
+        return response.data;
+    } catch (error) {
+        console.error('Error rejecting reschedule request:', error);
+        if (error.response) {
+            console.error('Error rejecting reschedule request:', error.response.data.message);
+        }
+        throw error;
+    }
+};
+
