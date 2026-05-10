@@ -4,8 +4,7 @@ FixItNow is a web-based Home Services Marketplace Platform that connects custome
 
 The platform enables transparent job posting, competitive bidding, technician selection, and performance-based evaluation.
 
-<img src="[https://github.com/user-attachments/assets/ef0c8afd-a0d7-4fb4-a9ca-cb9ea451b0dc](https://github.com/user-attachments/assets/ef0c8afd-a0d7-4fb4-a9ca-cb9ea451b0dc)" alt="FixItNow Home Screen" width="100%">
-
+<img src="https://github.com/user-attachments/assets/ef0c8afd-a0d7-4fb4-a9ca-cb9ea451b0dc" alt="FixItNow Home Screen" width="100%">
 ---
 
 ## 🖼️ Preview
