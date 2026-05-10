@@ -4,6 +4,30 @@ FixItNow is a web-based Home Services Marketplace Platform that connects custome
 
 The platform enables transparent job posting, competitive bidding, technician selection, and performance-based evaluation.
 
+<img src="[https://github.com/user-attachments/assets/ef0c8afd-a0d7-4fb4-a9ca-cb9ea451b0dc](https://github.com/user-attachments/assets/ef0c8afd-a0d7-4fb4-a9ca-cb9ea451b0dc)" alt="FixItNow Home Screen" width="100%">
+
+---
+
+## 🖼️ Preview
+<details>
+    <summary>Click to expand screenshots of FixItNow</summary>
+    <br>
+    <table>
+        <tr>
+            <td><img width="400" alt="Technician Dashboard" src="https://github.com/user-attachments/assets/0e539ca8-28ad-412d-bf2f-d3f68b5c124e" /></td>
+            <td><img width="400" alt="Customer Home" src="https://github.com/user-attachments/assets/495dc6f1-3164-469a-bfb0-719e788c1cd1" /></td>
+        </tr>
+        <tr>
+            <td><img width="400" alt="Post Job" src="https://github.com/user-attachments/assets/ebe2463c-0529-4f86-b69b-16399cc7687c" /></td>
+            <td><img width="400" alt="Bid Placing" src="https://github.com/user-attachments/assets/0b4791dd-4578-4c8e-9788-cfebe8cc2562" /></td>
+        </tr>
+        <tr>
+            <td><img width="400" alt="Updating Status" src="https://github.com/user-attachments/assets/01733fc1-40fc-42ff-9db1-6484b718228f" /></td>
+            <td><img width="400" alt="Bid View" src="https://github.com/user-attachments/assets/cd353923-af65-457f-9d7e-3083038e393a" /></td>
+        </tr>
+    </table>
+</details>
+
 ---
 
 ## 🚀 Features
